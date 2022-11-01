@@ -1,0 +1,106 @@
+version: "3"
+services:
+  mysql-server:
+    image: mysql:5.7.33
+    container_name: mysql-server
+    command: --character-set-server=utf8  --interactive_timeout=120 --wait_timeout=120 --log_warnings=1  --collation-server=utf8_bin --sql_mode=STRICT_TRANS_TABLES,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION --lower_case_table_names=1
+    restart: always 
+    environment:
+      - MYSQL_DATABASE=zabbix
+      - MYSQL_USER=zabbix
+      - MYSQL_PASSWORD=zabbix
+      - MYSQL_ROOT_PASSWORD=zabbix
+    ports:
+      - 3306:3306
+    volumes:
+      - ./data/mysql:/var/lib/mysql
+      - /etc/localtime:/etc/localtime
+#      - /etc/timezone:/etc/timezone
+  zabbix-server-mysql:
+    image: zabbix/zabbix-server-mysql:alpine-5.2.4
+    container_name: zabbix-server-mysql
+    ulimits:
+       nproc: 65535
+       nofile:
+        soft: 20000
+        hard: 40000
+    privileged: true
+    cap_add: 
+     - ALL
+    restart: always
+    environment:
+      - DB_SERVER_HOST=mysql-server
+      - MYSQL_USER=zabbix
+      - ZBX_CACHESIZE=1024M
+      - MYSQL_PASSWORD=zabbix
+      - MYSQL_DATABASE=zabbix
+      - MYSQL_ROOT_PASSWORD=zabbix
+    ports:
+      - 10051:10051
+    sysctls:
+     - net.ipv4.ip_local_port_range=1024 65000
+     - net.ipv4.conf.all.accept_redirects=0
+     - net.ipv4.conf.all.secure_redirects=0
+     - net.ipv4.conf.all.send_redirects=0
+    links:
+      - mysql-server:mysql
+    depends_on:
+      - mysql-server
+    volumes:
+      - /etc/localtime:/etc/localtime
+      - /etc/timezone:/etc/timezone
+#     - zabbix-server-conf:/etc/zabbix
+#     - zabbix-server-alertscripts:/usr/lib/zabbix/alertscripts
+  zabbix-web:
+    image: zabbix/zabbix-web-nginx-mysql:alpine-5.2.4
+    environment:
+      - DB_SERVER_HOST=mysql-server
+      - MYSQL_USER=zabbix
+      - PHP_TZ=Asia/Shanghai
+      - MYSQL_PASSWORD=zabbix
+      - MYSQL_DATABASE=zabbix
+      - MYSQL_ROOT_PASSWORD=zabbix
+    restart: always
+    ports:
+      - 80:8080
+    volumes:
+      - /etc/localtime:/etc/localtime
+      - /etc/timezone:/etc/timezone
+      - ./data/fonts/simhei.ttf:/usr/share/zabbix/assets/fonts/DejaVuSans.ttf
+    links:
+      - mysql-server:mysql
+      - zabbix-server-mysql:zabbix-server
+    depends_on:
+      - mysql-server
+      - zabbix-server-mysql
+#  zabbix-agent:
+#    image: zabbix/zabbix-agent2:alpine-5.2.3
+#    privileged: true
+#    restart: always
+#    cap_add: 
+#    - ALL
+#    volumes:
+#     - /etc/timezone:/etc/timezone
+#    environment:
+#      ZBX_SERVER_HOST: zabbix-server-mysql
+#    ports:
+#      - '10050:10050'
+
+
+  my-grafana:
+    image: grafana/grafana:7.3.7
+    container_name: my-grafana
+    restart: unless-stopped
+    volumes:
+      - ./data/grafana:/var/lib/grafana
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+      - GF_USERS_ALLOW_SIGN_UP=false
+    ports:
+      - '3000:3000'
+    user: '0'
+
+volumes:
+  zabbix-server-conf:
+  zabbix-server-alertscripts:
+

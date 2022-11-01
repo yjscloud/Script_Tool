@@ -1,0 +1,7 @@
+Flask==2.0.2
+python-dotenv
+requests
+pycryptodome
+tencentcloud-sdk-python-vpc
+tencentcloud-sdk-python
+gevent
