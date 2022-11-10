@@ -57,6 +57,10 @@ docker安装zabbix yaml脚本
 
 定时任务版的监控家庭宽带公网IP的脚本，如果公网IP发生变化会将消息发送到飞书机器人
 
+13、***tencent_vod_time.py***
+
+腾讯云点播每小时的播放数据导出execl脚本
+
 ## shell目录
 
 1、***buff_cache.sh***
@@ -118,45 +122,3 @@ zabbix一键安装脚本，适用于CentOS7 x86平台
 ## yum目录
 
 记录了一下yum的配置文件
-
-
-# 代码推送命令（私有仓库）
-
-## Git 全局设置
-
-```
-git config --global user.name "yjscloud"
-git config --global user.email "yjscloud@gmail.com"
-```
-
-## 创建新版本库
-
-```
-git clone ssh://git@gogs.yjscloud.com:10022/yjscloud/Script_Tool.git
-cd Script_Tool
-touch README.md
-git add README.md
-git commit -m "add README"
-git push -u origin master
-```
-
-## 已存在的文件夹
-
-```
-cd existing_folder
-git init
-git remote add origin ssh://git@gogs.yjscloud.com:10022/yjscloud/Script_Tool.git
-git add .
-git commit -m "Initial commit"
-git push -u origin master
-```
-
-## 已存在的 Git 版本库
-
-```
-cd existing_repo
-git remote rename origin old-origin
-git remote add origin ssh://git@gogs.yjscloud.com:10022/yjscloud/Script_Tool.git
-git push -u origin --all
-git push -u origin --tags
-```
