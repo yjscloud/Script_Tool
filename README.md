@@ -61,6 +61,10 @@ docker安装zabbix yaml脚本
 
 腾讯云点播每小时的播放数据导出execl脚本
 
+14、***apk_cdn.py***
+
+apk包上传到cdn服务器并自动预热腾讯云CDN
+
 ## shell目录
 
 1、***buff_cache.sh***
