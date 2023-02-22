@@ -65,6 +65,10 @@ docker安装zabbix yaml脚本
 
 apk包上传到cdn服务器并自动预热腾讯云CDN
 
+15、***tencent_ssl_domain.py***
+
+调用腾讯云SSL域名证书接口获取证书信息生成图片并发送飞书卡片消息
+
 ## shell目录
 
 1、***buff_cache.sh***
