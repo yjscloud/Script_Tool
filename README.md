@@ -95,6 +95,9 @@ apk包上传到cdn服务器并自动预热腾讯云CDN
 
 Linux批量添加用户设置密码
 
+7、***tool_user_add.sh***
+
+检查url地址的ssl证书有效期，如果小于某个值发送飞书消息
 
 ### Install_shell目录
 1、***cloud_install.sh***
