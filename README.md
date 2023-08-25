@@ -69,6 +69,12 @@ apk包上传到cdn服务器并自动预热腾讯云CDN
 
 调用腾讯云SSL域名证书接口获取证书信息生成图片并发送飞书卡片消息
 
+16、***lianjia_csv.py***
+链家爬虫数据写入csv文件
+
+17、***lianjia_mysql.py***
+链家爬虫数据写入MySQL
+
 ## shell目录
 
 1、***buff_cache.sh***
