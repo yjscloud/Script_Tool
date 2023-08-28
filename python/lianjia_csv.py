@@ -63,7 +63,8 @@ for page in range(1, 100):
                     tag_list = li.css('.tag span::text').getall()  # 标签
                     tag = '-'.join(tag_list)
                     total_price = li.css('.totalPrice span::text').get()  # 总价
-                    unit_price = li.css('.unitPrice span::text').get().replace('元/平', '')  # 单价
+                    unit_price_var = li.css('.unitPrice span::text').get().replace('元/平', '')  # 单价
+                    unit_price = int(unit_price_var.replace(",", ""))
                     dit = {
                         '房子id': house_id,
                         '标题': title,

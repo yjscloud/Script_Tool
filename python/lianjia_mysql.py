@@ -44,8 +44,8 @@ def spider_site(gz_site, gz_site_code):
             follow_man VARCHAR(255),
             updated VARCHAR(255),
             tag VARCHAR(255),
-            total_price VARCHAR(255),
-            unit_price VARCHAR(255),
+            total_price float,
+            unit_price int,
             href VARCHAR(255)
         )
         '''
@@ -92,7 +92,8 @@ def spider_site(gz_site, gz_site_code):
                         tag_list = li.css('.tag span::text').getall()  # 标签
                         tag = '-'.join(tag_list)
                         total_price = li.css('.totalPrice span::text').get()  # 总价
-                        unit_price = li.css('.unitPrice span::text').get().replace('元/平', '')  # 单价
+                        unit_price_var = li.css('.unitPrice span::text').get().replace('元/平', '')  # 单价
+                        unit_price = int(unit_price_var.replace(",", ""))
 
                         # 插入数据
                         insert_sql = f'''
